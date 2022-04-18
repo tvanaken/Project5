@@ -64,27 +64,70 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 			throw new IllegalStateException("Method should not be called until heap is full.");
 		}
 		// uncomment next line when binary heap is implemented
-		//return data[0];
+		return data[0];
 		// comment-out below when binary heap is implemented
 		// find the smallest element using linear search
-		int indexOfMin=0;
-		Comparable<T> comparableElement = (Comparable<T>)data[indexOfMin];
+//		int indexOfMin=0;
+//		Comparable<T> comparableElement = (Comparable<T>)data[indexOfMin];
+//		
+//		for (int i=1; i<data.length; i++) {
+//			if (comparableElement.compareTo(data[i])>0) {
+//				indexOfMin=i;
+//				comparableElement = (Comparable<T>)data[indexOfMin];
+//			}
+//		}
+//		return data[indexOfMin];
+	}
+	
+	public void swap(Integer child, Integer parent) {
 		
-		for (int i=1; i<data.length; i++) {
-			if (comparableElement.compareTo(data[i])>0) {
-				indexOfMin=i;
-				comparableElement = (Comparable<T>)data[indexOfMin];
-			}
-		}
-		return data[indexOfMin];
+		T childTemp = data[child];
+		T parentTemp = data[parent];
+		
+		data[child] = data[parent];
+		data[parent] = childTemp;
+		map.replace(parentTemp, parent, child);
+		map.replace(childTemp, child, parent);
 	}
 	
 	public void update(T element) {
+		
 		if (elementCount!=data.length || !initialized) {
 			throw new IllegalStateException("Method should not be called until heap is full.");
 		}
-		// TODO: implement
+		
+		int index = map.get(element);
+		
+		Comparable<T> temp = (Comparable<T>)element;
+		
+		while (hasParent(index) && ((Comparable<T>)data[(index - 1) / 2]).compareTo(data[index]) > 0) {
+			swap(index, (index - 1) / 2);
+			index = (index - 1) / 2;
+		}
+		
+		data[index] = element;
+		map.replace(element, map.get(element), index);
 	}
+	
+	protected boolean hasParent(int i) {
+		
+		if (i > 0) {
+			return true;
+		}
+		return false;
+	}
+	
+    public static int parent(int i) {
+        return (i - 1) / 2;
+    }
+
+    public static int leftChild(int i) {
+        return 2*i + 1;
+    }
+
+    public static int rightChild(int i) {
+        return 2*i + 2;
+    }
 
 	@Override
 	public boolean isInitialized() {
