@@ -102,6 +102,8 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 	/**
 	 * Used to either bubble-up or bubble-down the node that was
 	 * added or manipulated within the binary tree.
+	 * @param element the element that was either just added or manipulated,
+	 * needing to be updated.
 	 */
 	public void update(T element) {
 		
@@ -132,6 +134,9 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			
 		}
+		
+//		data[index] = element;
+//		map.replace(element, map.get(element), index);
 	}
 	
 	/**

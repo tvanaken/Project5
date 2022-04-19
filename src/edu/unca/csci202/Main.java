@@ -16,17 +16,17 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("Timing linear code...");
 		int copies=16;
-//		for (int i=0; i<8; i++) {
-//			Model m = createModel(copies);
-//			// construct a heap large enough to hold the number of reaction in the model
-//			HashMinHeapLinear<NRMReaction> heap = new HashMinHeapLinear<NRMReaction>(m.getNumberOfReactions());
-//			// construct simulation object (it will fill heap)
-//			NRM solver = new NRM(m, heap);
-//			// run a simulation
-//			System.out.println(m.getNumberOfReactions()+","+solver.simulate(1000000));
-//			// double the size of the model for next iteration
-//			copies*=2;
-//		}
+		for (int i=0; i<8; i++) {
+			Model m = createModel(copies);
+			// construct a heap large enough to hold the number of reaction in the model
+			HashMinHeapLinear<NRMReaction> heap = new HashMinHeapLinear<NRMReaction>(m.getNumberOfReactions());
+			// construct simulation object (it will fill heap)
+			NRM solver = new NRM(m, heap);
+			// run a simulation
+			System.out.println(m.getNumberOfReactions()+","+solver.simulate(1000000));
+			// double the size of the model for next iteration
+			copies*=2;
+		}
 
 		System.out.println("Timing logarithmic code...");
 		copies=16;
