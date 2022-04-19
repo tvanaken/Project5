@@ -59,6 +59,10 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 		}
 	}
 	
+	/**
+	 * Used to get the minimum value within the array
+	 * @return T the minimum value in the heap
+	 */
 	public T getMin() {
 		if (elementCount!=data.length || !initialized) {
 			throw new IllegalStateException("Method should not be called until heap is full.");
@@ -79,6 +83,11 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 //		return data[indexOfMin];
 	}
 	
+	/**
+	 * Used to swap two nodes with one another in a binary tree
+	 * @param child the child node
+	 * @param parent the parent node
+	 */
 	public void swap(Integer child, Integer parent) {
 		
 		T childTemp = data[child];
@@ -90,6 +99,10 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 		map.replace(childTemp, child, parent);
 	}
 	
+	/**
+	 * Used to either bubble-up or bubble-down the node that was
+	 * added or manipulated within the binary tree.
+	 */
 	public void update(T element) {
 		
 		if (elementCount!=data.length || !initialized) {
@@ -105,10 +118,27 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 			index = (index - 1) / 2;
 		}
 		
-		data[index] = element;
-		map.replace(element, map.get(element), index);
+		try {
+			while (((index < data.length - 1) && ((Comparable<T>)data[(2*index) + 1]).compareTo(data[index]) <= 0) || ((Comparable<T>)data[(2*index) + 2]).compareTo(data[index]) <= 0) {
+	
+				if (((Comparable<T>)data[(2*index) + 1]).compareTo(data[(2*index) + 2]) <= 0) {
+					swap(index, (2*index) + 1);
+					index = (index*2) + 1;
+				} else {
+				swap(index, (index*2) + 2);
+				index = (index*2) + 2;
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			
+		}
 	}
 	
+	/**
+	 * Checks to see if the node has a parent node
+	 * @param i the index within the binary tree
+	 * @return true if the node has a parent
+	 */
 	protected boolean hasParent(int i) {
 		
 		if (i > 0) {
@@ -116,18 +146,6 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 		}
 		return false;
 	}
-	
-    public static int parent(int i) {
-        return (i - 1) / 2;
-    }
-
-    public static int leftChild(int i) {
-        return 2*i + 1;
-    }
-
-    public static int rightChild(int i) {
-        return 2*i + 2;
-    }
 
 	@Override
 	public boolean isInitialized() {

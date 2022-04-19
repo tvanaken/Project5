@@ -29,7 +29,7 @@ public class Main {
 //		}
 
 		System.out.println("Timing logarithmic code...");
-		copies=2;
+		copies=16;
 		for (int i=0; i<8; i++) {
 			Model m = createModel(copies);
 			HashMinHeapLogarithmic<NRMReaction> heap2 = new HashMinHeapLogarithmic<NRMReaction>(m.getNumberOfReactions());
