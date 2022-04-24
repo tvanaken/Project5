@@ -54,6 +54,8 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 		data[elementCount]=element;
 		map.put(element,elementCount);
 		elementCount++;
+		bubbleUp(element);
+		bubbleDown(element);
 		if (elementCount==data.length) {
 			initialized=true;
 		}
@@ -99,6 +101,40 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 		map.replace(childTemp, child, parent);
 	}
 	
+	public void bubbleDown(T element) {
+		
+		int index = map.get(element);
+		
+		Comparable<T> temp = (Comparable<T>)element;
+		
+		try {
+			while (hasChildren(element)) {
+	
+				if (((Comparable<T>)data[(2*index) + 1]).compareTo(data[(2*index) + 2]) <= 0) {
+					swap(index, (2*index) + 1);
+					index = (index*2) + 1;
+				} else {
+					swap(index, (index*2) + 2);
+					index = (index*2) + 2;
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return;
+		}
+	}
+	
+	public void bubbleUp(T element) {
+		
+		int index = map.get(element);
+		
+		Comparable<T> temp = (Comparable<T>)element;
+		
+		while (hasParent(index) && ((Comparable<T>)data[(index - 1) / 2]).compareTo(data[index]) > 0) {
+			swap(index, (index - 1) / 2);
+			index = (index - 1) / 2;
+		}
+	}
+	
 	/**
 	 * Used to either bubble-up or bubble-down the node that was
 	 * added or manipulated within the binary tree.
@@ -111,32 +147,8 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 			throw new IllegalStateException("Method should not be called until heap is full.");
 		}
 		
-		int index = map.get(element);
-		
-		Comparable<T> temp = (Comparable<T>)element;
-		
-		while (hasParent(index) && ((Comparable<T>)data[(index - 1) / 2]).compareTo(data[index]) > 0) {
-			swap(index, (index - 1) / 2);
-			index = (index - 1) / 2;
-		}
-		
-		try {
-			while (((index < data.length - 1) && ((Comparable<T>)data[(2*index) + 1]).compareTo(data[index]) <= 0) || ((Comparable<T>)data[(2*index) + 2]).compareTo(data[index]) <= 0) {
-	
-				if (((Comparable<T>)data[(2*index) + 1]).compareTo(data[(2*index) + 2]) <= 0) {
-					swap(index, (2*index) + 1);
-					index = (index*2) + 1;
-				} else {
-				swap(index, (index*2) + 2);
-				index = (index*2) + 2;
-				}
-			}
-		} catch (ArrayIndexOutOfBoundsException e) {
-			
-		}
-		
-//		data[index] = element;
-//		map.replace(element, map.get(element), index);
+		bubbleUp(element);
+		bubbleDown(element);
 	}
 	
 	/**
@@ -147,6 +159,16 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 	protected boolean hasParent(int i) {
 		
 		if (i > 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	protected boolean hasChildren(T element) {
+		
+		int index = map.get(element);
+		
+		if ((data[(2*index)+1] != null) || (data[(2*index)+2] != null)) {
 			return true;
 		}
 		return false;

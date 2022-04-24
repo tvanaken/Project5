@@ -38,6 +38,7 @@ public class Main {
 			// double the size of the model for next iteration
 			copies*=2;
 		}
+
 	}
 
 	public static Model createModel(int copies) {
@@ -84,3 +85,4 @@ public class Main {
 	}
 
 }
+
