@@ -105,20 +105,18 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 		
 		int index = map.get(element);
 		
-		Comparable<T> temp = (Comparable<T>)element;
-		
 		try {
-			while (hasChildren(element)) {
+			while (hasChildren(element) && (((Comparable<T>)data[index]).compareTo(data[(2*index) + 1]) > 0) || ((Comparable<T>)data[index]).compareTo(data[(2*index) + 2]) > 0) {
 	
-				if (((Comparable<T>)data[(2*index) + 1]).compareTo(data[(2*index) + 2]) <= 0) {
+				if (((Comparable<T>)data[index]).compareTo(data[(2*index) + 1]) > 0) {
 					swap(index, (2*index) + 1);
 					index = (index*2) + 1;
-				} else {
+				} else if (((Comparable<T>)data[index]).compareTo(data[(2*index) + 2]) > 0) {
 					swap(index, (index*2) + 2);
 					index = (index*2) + 2;
 				}
 			}
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (Exception e) {
 			return;
 		}
 	}
@@ -127,9 +125,7 @@ public class HashMinHeapLogarithmic<T> implements HashMinHeapADT<T> {
 		
 		int index = map.get(element);
 		
-		Comparable<T> temp = (Comparable<T>)element;
-		
-		while (hasParent(index) && ((Comparable<T>)data[(index - 1) / 2]).compareTo(data[index]) > 0) {
+		while (hasParent(index) && ((Comparable<T>)data[index]).compareTo(data[(index - 1) / 2]) < 0) {
 			swap(index, (index - 1) / 2);
 			index = (index - 1) / 2;
 		}
